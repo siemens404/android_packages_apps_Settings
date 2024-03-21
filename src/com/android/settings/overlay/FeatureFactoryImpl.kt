@@ -27,6 +27,9 @@ import com.android.settings.accessibility.AccessibilitySearchFeatureProviderImpl
 import com.android.settings.accounts.AccountFeatureProvider
 import com.android.settings.accounts.AccountFeatureProviderImpl
 import com.android.settings.applications.ApplicationFeatureProviderImpl
+import com.android.settings.aware.AwareFeatureProvider
+import com.android.settings.aware.AwareFeatureProviderImpl
+import com.google.android.settings.aware.AwareFeatureProviderGoogleImpl
 import com.android.settings.biometrics.face.FaceFeatureProvider
 import com.android.settings.biometrics.face.FaceFeatureProviderImpl
 import com.android.settings.biometrics.fingerprint.FingerprintFeatureProvider
@@ -190,4 +193,9 @@ open class FeatureFactoryImpl : FeatureFactory() {
     override val privateSpaceLoginFeatureProvider: PrivateSpaceLoginFeatureProvider by lazy {
         PrivateSpaceLoginFeatureProviderImpl()
     }
+
+   override val AwareFeatureProvider: AwareFeatureProvider by lazy {
+        AwareFeatureProviderGoogleImpl()
+    }
+
 }

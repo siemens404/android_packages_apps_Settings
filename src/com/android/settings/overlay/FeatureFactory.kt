@@ -20,6 +20,7 @@ import com.android.settings.accessibility.AccessibilityMetricsFeatureProvider
 import com.android.settings.accessibility.AccessibilitySearchFeatureProvider
 import com.android.settings.accounts.AccountFeatureProvider
 import com.android.settings.applications.ApplicationFeatureProvider
+import com.android.settings.aware.AwareFeatureProvider
 import com.android.settings.biometrics.face.FaceFeatureProvider
 import com.android.settings.biometrics.fingerprint.FingerprintFeatureProvider
 import com.android.settings.biometrics2.factory.BiometricsRepositoryProvider
@@ -175,6 +176,11 @@ abstract class FeatureFactory {
      * Gets implementation for Private Space account login feature.
      */
     abstract val privateSpaceLoginFeatureProvider: PrivateSpaceLoginFeatureProvider
+
+    /**
+     * Gets implementation for Motion sense feature..
+     */
+    abstract val AwareFeatureProvider: AwareFeatureProvider
 
     companion object {
         private var _factory: FeatureFactory? = null

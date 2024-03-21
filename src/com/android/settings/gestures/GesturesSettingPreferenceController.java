@@ -21,19 +21,24 @@ import android.hardware.display.AmbientDisplayConfiguration;
 
 import androidx.annotation.NonNull;
 
+import com.android.settings.aware.AwareFeatureProvider;
 import com.android.settings.core.BasePreferenceController;
+import com.android.settings.overlay.FeatureFactory;
 import com.android.settingslib.core.AbstractPreferenceController;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GesturesSettingPreferenceController extends BasePreferenceController {
+    private final AwareFeatureProvider mAwareFeatureProvider;
     private List<AbstractPreferenceController> mGestureControllers;
 
+    private static final String KEY_GESTURES_SETTINGS = "gesture_settings";
     private static final String FAKE_PREF_KEY = "fake_key_only_for_get_available";
 
-    public GesturesSettingPreferenceController(Context context, String key) {
-        super(context, key);
+    public GesturesSettingPreferenceController(Context context) {
+        super(context, KEY_GESTURES_SETTINGS);
+        mAwareFeatureProvider = FeatureFactory.getFeatureFactory().getAwareFeatureProvider();
     }
 
     @Override

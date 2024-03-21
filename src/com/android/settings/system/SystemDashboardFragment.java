@@ -18,12 +18,14 @@ package com.android.settings.system;
 import android.app.settings.SettingsEnums;
 import android.os.Bundle;
 
+import androidx.annotation.VisibleForTesting;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceScreen;
 
 import com.android.settings.R;
 import com.android.settings.dashboard.DashboardFragment;
+import com.android.settings.overlay.FeatureFactory;
 import com.android.settings.search.BaseSearchIndexProvider;
 import com.android.settingslib.search.SearchIndexable;
 
@@ -31,6 +33,8 @@ import com.android.settingslib.search.SearchIndexable;
 public class SystemDashboardFragment extends DashboardFragment {
 
     private static final String TAG = "SystemDashboardFrag";
+
+    public static final String EXTRA_SHOW_AWARE_DISABLED = "show_aware_dialog_disabled";
 
     @Override
     public void onCreate(Bundle icicle) {
@@ -40,6 +44,17 @@ public class SystemDashboardFragment extends DashboardFragment {
         // We do not want to display an advanced button if only one setting is hidden
         if (getVisiblePreferenceCount(screen) == screen.getInitialExpandedChildrenCount() + 1) {
             screen.setInitialExpandedChildrenCount(Integer.MAX_VALUE);
+        }
+
+        showRestrictionDialog();
+    }
+
+    @VisibleForTesting
+    public void showRestrictionDialog() {
+        final Bundle args = getArguments();
+        if (args != null && args.getBoolean(EXTRA_SHOW_AWARE_DISABLED, false)) {
+            FeatureFactory.getFeatureFactory().getAwareFeatureProvider()
+                    .showRestrictionDialog(this);
         }
     }
 

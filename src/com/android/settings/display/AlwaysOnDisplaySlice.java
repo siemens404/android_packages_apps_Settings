@@ -36,6 +36,8 @@ import androidx.slice.builders.SliceAction;
 
 import com.android.settings.R;
 import com.android.settings.Utils;
+import com.android.settings.aware.AwareFeatureProvider;
+import com.android.settings.overlay.FeatureFactory;
 import com.android.settings.slices.CustomSliceRegistry;
 import com.android.settings.slices.CustomSliceable;
 
@@ -57,10 +59,12 @@ public class AlwaysOnDisplaySlice implements CustomSliceable {
 
     private final Context mContext;
     private final AmbientDisplayConfiguration mConfig;
+    private final AwareFeatureProvider mFeatureProvider;
 
     public AlwaysOnDisplaySlice(Context context) {
         mContext = context;
         mConfig = new AmbientDisplayConfiguration(mContext);
+        mFeatureProvider = FeatureFactory.getFeatureFactory().getAwareFeatureProvider();
     }
 
     @Override
@@ -103,9 +107,12 @@ public class AlwaysOnDisplaySlice implements CustomSliceable {
         final boolean isChecked = intent.getBooleanExtra(android.app.slice.Slice.EXTRA_TOGGLE_STATE,
                 false);
         final ContentResolver resolver = mContext.getContentResolver();
+        final boolean isAwareSupported = mFeatureProvider.isSupported(mContext);
+        final boolean isAwareEnabled = mFeatureProvider.isEnabled(mContext);
 
         Settings.Secure.putInt(resolver, DOZE_ALWAYS_ON, isChecked ? 1 : 0);
-        Settings.Secure.putInt(resolver, DOZE_WAKE_DISPLAY_GESTURE, 0);
+        Settings.Secure.putInt(resolver, DOZE_WAKE_DISPLAY_GESTURE,
+                (isAwareEnabled && isAwareSupported && isChecked) ? 1 : 0);
     }
 
     @Override
